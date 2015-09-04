@@ -49,6 +49,13 @@ mix deps.get
 ```
 
 
+## Tests
+
+```
+mix test
+```
+
+
 ## Also see
 
 * My [fixme Ruby gem](https://github.com/henrik/fixme)
