@@ -7,9 +7,18 @@ defmodule FIXME.Mixfile do
       version: "0.0.1",
       elixir: "~> 1.0",
       description: "FIXME comments that raise after a certain point in time.",
+      package: package,
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      contributors: ["Henrik Nyh"],
+      links: %{"GitHub" => "https://github.com/henrik/fixme-elixir"},
     ]
   end
 
