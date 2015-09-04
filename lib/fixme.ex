@@ -3,7 +3,7 @@ defmodule FIXME do
     _fixme(date_expression, message)
   end
 
-  # Public but underscored function for ease of testing (compile-time logic vs. runtime tests).
+  # Public but underscored function for ease of testing (compile-time raise vs. runtime tests).
   def _fixme({:-, _, [{:-, _, [year, month]}, day]}, message) do
     {current_date, _time} = :calendar.local_time
     fixme_date = {year, month, day}
