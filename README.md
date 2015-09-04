@@ -30,6 +30,25 @@ Note that you need to explicitly `import FIXME` because `FIXME.fixme` can only e
 Protip: make sure it's clear from the exception or from a separate comment just what should be done – sometimes not even the person who wrote the quickfix will remember what you're meant to change.
 
 
+## Installation
+
+Add the dependency to your project's `mix.exs`:
+
+``` elixir
+defp deps do
+  [
+    {:fixme, "~> 0.0.1"},
+  ]
+end
+```
+
+Then fetch it:
+
+```
+mix deps.get
+```
+
+
 ## Also see
 
 * My [fixme Ruby gem](https://github.com/henrik/fixme)
