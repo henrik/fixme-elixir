@@ -1,7 +1,7 @@
 defmodule FIXMETest do
   use ExUnit.Case
 
-  # We can't (?) test through the actual macro since it's compile-time.
+  # We can't (?) test through the actual macro since it would raise at compile time.
 
   test "parses the given date" do
     assert_raise RuntimeError, "Fix by 1983-07-26: be born", fn ->
