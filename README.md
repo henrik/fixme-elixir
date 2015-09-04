@@ -56,6 +56,11 @@ mix test
 ```
 
 
+## Gotchas
+
+If you see an error like "** (CompileError) lib/foo.ex:2: undefined function fixme/2", you probably forgot to `import FIXME`.
+
+
 ## Also see
 
 * My [fixme Ruby gem](https://github.com/henrik/fixme)
