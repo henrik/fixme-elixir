@@ -1,13 +1,16 @@
 defmodule FIXME do
-  defmacro fixme({:-, _, [{:-, _, [year, month]}, day]}, message) do
+  defmacro fixme(date_expression, message) do
+    _fixme(date_expression, message)
+  end
+
+  # Public but underscored function for ease of testing (compile-time logic vs. runtime tests).
+  def _fixme({:-, _, [{:-, _, [year, month]}, day]}, message) do
     {current_date, _time} = :calendar.local_time
     fixme_date = {year, month, day}
     _fixme(current_date, fixme_date, message)
   end
 
-  # For ease of testing:
-  # - Lets us inject the current date
-  # - Lets us test compile-time logic (like exceptions) at runtime
+  # Makes it easier to test date comparisons.
   def _fixme(current_date, fixme_date, message) do
     if current_date >= fixme_date do
       {year, month, day} = fixme_date
