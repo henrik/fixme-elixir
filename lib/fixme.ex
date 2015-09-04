@@ -11,9 +11,8 @@ defmodule FIXME do
   end
 
   # Makes it easier to test date comparisons.
-  def _fixme(current_date, fixme_date, message) do
+  def _fixme(current_date, {year, month, day} = fixme_date, message) do
     if current_date >= fixme_date do
-      {year, month, day} = fixme_date
       raise "Fix by #{year}-#{zeropad month}-#{zeropad day}: #{message}"
     end
   end
