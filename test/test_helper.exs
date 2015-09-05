@@ -1,18 +1,20 @@
 ExUnit.start()
 
 defmodule CompileTimeAssertions do
-  defmacro assert_compile_time_raise(expected_exception, expected_message, fun) do
-    expected_exception  # Don't warn about unused variable.
+  defmodule DidNotRaise, do: defstruct(message: nil)
 
-    raised_message = try do
+  defmacro assert_compile_time_raise(expected_exception, expected_message, fun) do
+    actual_exception =
+    try do
       Code.eval_quoted(fun)
-      :did_not_raise
+      %DidNotRaise{}
     rescue
-      expected_exception -> expected_exception.message
+      e -> e
     end
 
     quote do
-      assert unquote(raised_message) == unquote(expected_message)
+      assert unquote(actual_exception.__struct__) == unquote(expected_exception)
+      assert unquote(actual_exception.message) == unquote(expected_message)
     end
   end
 end
