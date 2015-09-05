@@ -25,7 +25,7 @@ You may want to use these bad boys next to:
 
 They raise at compile time because runtime errors in production are not desirable. Compile time also means that the above example will raise when `my_function` is compiled, even if it's never called.
 
-Note that you need to explicitly `import FIXME` because `FIXME.fixme` can only execute at compile time if it is a macro, and these must be explicitly loaded.
+Note that you need to explicitly `import FIXME` because `fixme` is a macro.
 
 Protip: make sure it's clear from the exception or from a separate comment just what should be done – sometimes not even the person who wrote the quickfix will remember what you're meant to change.
 
