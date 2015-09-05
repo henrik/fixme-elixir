@@ -5,12 +5,12 @@ defmodule CompileTimeAssertions do
 
   defmacro assert_compile_time_raise(expected_exception, expected_message, fun) do
     actual_exception =
-    try do
-      Code.eval_quoted(fun)
-      %DidNotRaise{}
-    rescue
-      e -> e
-    end
+      try do
+        Code.eval_quoted(fun)
+        %DidNotRaise{}
+      rescue
+        e -> e
+      end
 
     quote do
       assert unquote(actual_exception.__struct__) == unquote(expected_exception)
