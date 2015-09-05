@@ -1,19 +1,20 @@
 defmodule FIXME do
-  defmacro fixme(date_expression, message) do
-    _fixme(date_expression, message)
-  end
+  defmacro fixme(
+    {:-, _, [{:-, _, [year, month]}, day]},
+    message,
+    opts \\ :default_opts
+  ) do
+    {opts, _} = Code.eval_quoted(opts)
 
-  # Public but underscored function for ease of testing (compile-time raise vs. runtime tests).
-  def _fixme({:-, _, [{:-, _, [year, month]}, day]}, message) do
-    {current_date, _time} = :calendar.local_time
+    # Injectable "today" for tests.
+    current_date = case opts do
+      :default_opts -> :calendar.local_time |> elem(0)
+      [today: date] -> date
+    end
+
     fixme_date = {year, month, day}
-    _fixme(current_date, fixme_date, message)
-  end
 
-  # Makes it easier to test date comparisons.
-  def _fixme(current_date, fixme_date, message) do
     if current_date >= fixme_date do
-      {year, month, day} = fixme_date
       raise "Fix by #{year}-#{zeropad month}-#{zeropad day}: #{message}"
     end
   end

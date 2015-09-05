@@ -37,7 +37,7 @@ Add the dependency to your project's `mix.exs`:
 ``` elixir
 defp deps do
   [
-    {:fixme, "~> 0.0.2"},
+    {:fixme, "> 0.0.0"},
   ]
 end
 ```

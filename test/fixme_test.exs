@@ -1,28 +1,24 @@
 defmodule FIXMETest do
   use ExUnit.Case
+  import CompileTimeAssertions
 
-  # We can't (?) test through the actual macro since it would raise at compile time.
+  test "does not raise before date" do
+    import FIXME
+    fixme 9999-07-01, "look for jetpack"
+  end
 
-  test "parses the given date" do
-    assert_raise RuntimeError, "Fix by 1983-07-26: be born", fn ->
-      FIXME._fixme (quote do: 1983-07-26), "be born"
+  test "raises after date" do
+    assert_compile_time_raise RuntimeError, "Fix by 1983-07-26: be born", fn ->
+      import FIXME
+      fixme 1983-07-26, "be born"
     end
   end
 
   test "raises on date" do
-    assert_raise RuntimeError, "Fix by 2015-01-02: boom", fn ->
-      FIXME._fixme {2015, 1, 2}, {2015, 1, 2}, "boom"
+    assert_compile_time_raise RuntimeError, "Fix by 9999-07-01: look for jetpack", fn ->
+      import FIXME
+      fixme 9999-07-01, "look for jetpack", today: {9999, 7, 1}
     end
-  end
-
-  test "raises after date" do
-    assert_raise RuntimeError, "Fix by 2015-01-02: boom", fn ->
-      FIXME._fixme {2015, 1, 3}, {2015, 1, 2}, "boom"
-    end
-  end
-
-  test "does not raise before date" do
-    FIXME._fixme {2015, 1, 1}, {2015, 1, 2}, "boom"
   end
 
   test "sanity" do
@@ -30,5 +26,6 @@ defmodule FIXMETest do
     assert {2015, 1, 1} > {2014, 12, 31}
     assert {2015, 2, 1} > {2015, 1, 1}
     assert {2015, 1, 2} > {2015, 1, 1}
+    assert {2015, 1, 1} == {2015, 1, 1}
   end
 end
