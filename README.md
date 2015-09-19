@@ -25,6 +25,8 @@ You may want to use these bad boys next to:
 
 They raise at compile time because runtime errors in production are not desirable. Compile time also means that the above example will raise when `my_function` is compiled, even if it's never called.
 
+Another consequence of running at compile time is that if the date passes and the file is not recompiled, there will be no exception. You can either accept that (maybe untouched code can remain that way until the next time), or you can `mix compile --force`. Or make your case for runtime support: maybe it should be added?
+
 Note that you need to explicitly `import FIXME` because `fixme` is a macro.
 
 Protip: make sure it's clear from the exception or from a separate comment just what should be done – sometimes not even the person who wrote the quickfix will remember what you're meant to change.

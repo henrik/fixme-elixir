@@ -1,0 +1,2 @@
+%{"dogma": {:git, "git://github.com/henrik/dogma.git", "a72d912079f05a93f9705d659842ab7c1470662d", []},
+  "poison": {:hex, :poison, "1.5.0"}}
