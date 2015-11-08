@@ -1,20 +1,15 @@
 ExUnit.start()
 
 defmodule CompileTimeAssertions do
-  defmodule DidNotRaise, do: defstruct(message: nil)
-
   defmacro assert_compile_time_raise(expected_exception, expected_message, fun) do
-    actual_exception =
-      try do
-        Code.eval_quoted(fun)
-        %DidNotRaise{}
-      rescue
-        e -> e
-      end
+    # At compile-time, the fun is in AST form and thus cannot raise.
+    # At run-time, we will evaluate this AST, and it may raise.
+    fun_quoted_at_runtime = {:quote, [], [[do: fun]]}
 
     quote do
-      assert unquote(actual_exception.__struct__) == unquote(expected_exception)
-      assert unquote(actual_exception.message) == unquote(expected_message)
+      assert_raise unquote(expected_exception), unquote(expected_message), fn ->
+        Code.eval_quoted(unquote(fun_quoted_at_runtime))
+      end
     end
   end
 end
