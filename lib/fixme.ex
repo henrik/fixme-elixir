@@ -20,6 +20,6 @@ defmodule FIXME do
   end
 
   defp zeropad(number) do
-    number |> Integer.to_string |> String.rjust 2, ?0
+    number |> Integer.to_string |> String.rjust(2, ?0)
   end
 end
