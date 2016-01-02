@@ -17,7 +17,7 @@ defmodule FIXME.Mixfile do
   defp package do
     [
       licenses: ["MIT"],
-      contributors: ["Henrik Nyh"],
+      maintainers: ["Henrik Nyh"],
       links: %{"GitHub" => "https://github.com/henrik/fixme-elixir"},
     ]
   end
