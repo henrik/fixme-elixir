@@ -2,20 +2,26 @@ defmodule FIXME do
   defmacro fixme(
     {:-, _, [{:-, _, [year, month]}, day]},
     message,
-    opts \\ :default_opts
+    opts \\ []
   ) do
     {opts, _} = Code.eval_quoted(opts)
 
     # Injectable "today" for tests.
-    current_date = case opts do
-      :default_opts -> :calendar.local_time |> elem(0)
-      [today: date] -> date
-    end
+    current_date = opts[:today] || (:calendar.local_time |> elem(0))
+
+    # Opt into compile time warnings
+    warn = opts[:warn]
 
     fixme_date = {year, month, day}
 
-    if current_date >= fixme_date do
-      raise "Fix by #{year}-#{zeropad month}-#{zeropad day}: #{message}"
+    message = "Fix by #{year}-#{zeropad month}-#{zeropad day}: #{message}"
+    cond do
+      current_date >= fixme_date  ->
+        raise message
+      warn ->
+        %{file: file, line: line} = __CALLER__
+        :elixir_errors.warn line, file, message
+      true -> true
     end
   end
 

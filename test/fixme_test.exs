@@ -1,10 +1,41 @@
 defmodule FIXMETest do
   use ExUnit.Case
   import CompileTimeAssertions
+  import ExUnit.CaptureIO
 
   test "does not raise before date" do
     import FIXME
     fixme 9999-07-01, "look for jetpack"
+  end
+
+  test "warns during compile before the date if warn: true " do
+    warning = capture_io(:stderr, fn ->
+      Code.eval_string """
+        import FIXME
+        fixme 9999-07-01, "look for jetpack", warn: true
+      """
+    end)
+    assert warning =~ "Fix by 9999-07-01: look for jetpack"
+  end
+
+  test "does not warn during compile before the date if warn: false " do
+    warning = capture_io(:stderr, fn ->
+      Code.eval_string """
+        import FIXME
+        fixme 9999-07-01, "look for jetpack", warn: false
+      """
+    end)
+    assert warning == ""
+  end
+
+  test "does not warn during compile before the date if warn not provided " do
+    warning = capture_io(:stderr, fn ->
+      Code.eval_string """
+        import FIXME
+        fixme 9999-07-01, "look for jetpack"
+      """
+    end)
+    assert warning == ""
   end
 
   test "raises after date" do
