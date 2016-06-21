@@ -1,5 +1,8 @@
 # FIXME for Elixir
 
+[![Build Status](https://travis-ci.org/henrik/fixme-elixir.svg?branch=master)](https://travis-ci.org/henrik/fixme-elixir)
+[![Hex](https://img.shields.io/hexpm/v/fixme.svg)](https://hex.pm/packages/fixme)
+
 FIXME comments that raise after a certain point in time:
 
 ``` elixir
