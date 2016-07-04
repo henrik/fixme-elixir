@@ -8,7 +8,7 @@ defmodule FIXMETest do
     fixme 9999-07-01, "look for jetpack"
   end
 
-  test "warns during compile before the date if warn: true " do
+  test "warns during compile before the date if warn: true" do
     warning = capture_io(:stderr, fn ->
       Code.eval_string """
         import FIXME
@@ -18,7 +18,7 @@ defmodule FIXMETest do
     assert warning =~ "Fix by 9999-07-01: look for jetpack"
   end
 
-  test "does not warn during compile before the date if warn: false " do
+  test "does not warn during compile before the date if warn: false" do
     warning = capture_io(:stderr, fn ->
       Code.eval_string """
         import FIXME
@@ -28,7 +28,7 @@ defmodule FIXMETest do
     assert warning == ""
   end
 
-  test "does not warn during compile before the date if warn not provided " do
+  test "does not warn during compile before the date if warn not provided" do
     warning = capture_io(:stderr, fn ->
       Code.eval_string """
         import FIXME
@@ -49,6 +49,13 @@ defmodule FIXMETest do
     assert_compile_time_raise RuntimeError, "Fix by 9999-07-01: look for jetpack", fn ->
       import FIXME
       fixme 9999-07-01, "look for jetpack", today: {9999, 7, 1}
+    end
+  end
+
+  test "raises after date even if warn is true" do
+    assert_compile_time_raise RuntimeError, "Fix by 1983-07-26: be born", fn ->
+      import FIXME
+      fixme 1983-07-26, "be born", warn: true
     end
   end
 
