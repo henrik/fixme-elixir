@@ -19,6 +19,29 @@ end
 
 Starting December 1st 2015, the "fixme" line in the example above would raise a compile-time exception with the message "Fix by 2015-12-01: Stop hard-coding currency."
 
+You can additionally pass a parameter ```warn: true``` to issue a warning at compile time before the date:
+
+```elixir
+defmodule MyCode do
+  import FIXME
+
+  def my_function do
+    fixme 2020-12-01, "Stop hard-coding currency.", warn: true
+    currency = "USD"
+    # …
+  end
+end
+```
+
+will result in the following warning everytime the code is compiled before the date:
+
+```
+warning: Fix by 2020-12-01: Stop hard-coding currency.
+  lib/my_code.ex:5
+```
+
+Note, this will still raise on compile after the date passes.
+
 You may want to use these bad boys next to:
 
 * Temporary quick fixes, to ensure they really are temporary.
