@@ -12,7 +12,7 @@ defmodule FIXME do
     # Opt into compile time warnings via the application get env
     # Pass the additional option 'warn' to override the application setting
     warn = case opts[:warn] do
-      nil  ->
+      nil ->
         Application.get_env(:fixme, :warn, false)
       warn ->
         warn
@@ -22,7 +22,7 @@ defmodule FIXME do
 
     message = "Fix by #{year}-#{zeropad month}-#{zeropad day}: #{message}"
     cond do
-      current_date >= fixme_date  ->
+      current_date >= fixme_date ->
         raise message
       warn ->
         %{file: file, line: line} = __CALLER__
