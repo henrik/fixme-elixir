@@ -1,6 +1,15 @@
 defmodule FIXMETest do
   use ExUnit.Case
   import CompileTimeAssertions
+  import ExUnit.CaptureIO
+
+  setup context do
+    if context[:warnings_enabled] do
+      Application.put_env(:fixme, :warn, true)
+      on_exit fn -> Application.delete_env(:fixme, :warn) end
+    end
+    :ok
+  end
 
   test "does not raise before date" do
     import FIXME
@@ -18,6 +27,65 @@ defmodule FIXMETest do
     assert_compile_time_raise RuntimeError, "Fix by 9999-07-01: look for jetpack", fn ->
       import FIXME
       fixme 9999-07-01, "look for jetpack", today: {9999, 7, 1}
+    end
+  end
+
+  test "warns during compile time before the date if passed warn: true during invokation, even if application setting not present" do
+    warning = capture_io(:stderr, fn ->
+      Code.eval_string """
+        import FIXME
+        fixme 9999-07-01, "look for jetpack", warn: true
+      """
+    end)
+    assert warning =~ "Fix by 9999-07-01: look for jetpack"
+  end
+
+  @tag warnings_enabled: true
+  test "warns during compile before the date if warn: true in application settings" do
+    warning = capture_io(:stderr, fn ->
+      Code.eval_string """
+        import FIXME
+        fixme 9999-07-01, "look for jetpack"
+      """
+    end)
+    assert warning =~ "Fix by 9999-07-01: look for jetpack"
+  end
+
+  @tag warnings_enabled: true
+  test "does not warn during compile before the date if warn: true in application setting, but passed warn: false in macro call" do
+    warning = capture_io(:stderr, fn ->
+      Code.eval_string """
+        import FIXME
+        fixme 9999-07-01, "look for jetpack", warn: false
+      """
+    end)
+    assert warning == ""
+  end
+
+  @tag warnings_enabled: true
+  test "warns during compile before the date if warn: true in application settings and in macro call" do
+    warning = capture_io(:stderr, fn ->
+      Code.eval_string """
+        import FIXME
+        fixme 9999-07-01, "look for jetpack", warn: true
+      """
+    end)
+    assert warning =~ "Fix by 9999-07-01: look for jetpack"
+  end
+
+  @tag warnings_enabled: true
+  test "raises on date even if warn is true" do
+    assert_compile_time_raise RuntimeError, "Fix by 9999-07-01: look for jetpack", fn ->
+      import FIXME
+      fixme 9999-07-01, "look for jetpack", today: {9999, 7, 1}
+    end
+  end
+
+  @tag warnings_enabled: true
+  test "raises after date even if warn is true" do
+    assert_compile_time_raise RuntimeError, "Fix by 1983-07-26: be born", fn ->
+      import FIXME
+      fixme 1983-07-26, "be born"
     end
   end
 

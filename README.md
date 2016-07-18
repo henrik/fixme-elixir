@@ -19,6 +19,36 @@ end
 
 Starting December 1st 2015, the "fixme" line in the example above would raise a compile-time exception with the message "Fix by 2015-12-01: Stop hard-coding currency."
 
+An application wide setting can be enabled to emit warnings during compile time before the date provided to your fixme call.
+Adding:
+
+```elixir
+config :fixme, warn: true
+```
+
+will result in the following warning everytime the code is compiled before the date:
+
+```
+warning: Fix by 2020-12-01: Stop hard-coding currency.
+  lib/my_code.ex:5
+```
+
+Note, this will still raise on compile after the date passes.
+
+You can additionally pass a parameter ```warn: true``` or ```warn: false``` to override the application settings:
+
+```elixir
+defmodule MyCode do
+  import FIXME
+
+  def my_function do
+    fixme 2020-12-01, "Stop hard-coding currency.", warn: false # does not raise the warning even if warn: true in application settings
+    currency = "USD"
+    # …
+  end
+end
+```
+
 You may want to use these bad boys next to:
 
 * Temporary quick fixes, to ensure they really are temporary.
