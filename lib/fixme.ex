@@ -25,13 +25,12 @@ defmodule FIXME do
       current_date >= fixme_date ->
         raise message
       warn ->
-        %{file: file, line: line} = __CALLER__
-        :elixir_errors.warn line, file, message
+        IO.warn(message)
       true -> true
     end
   end
 
   defp zeropad(number) do
-    number |> Integer.to_string |> String.rjust(2, ?0)
+    number |> Integer.to_string |> String.pad_leading(2, "0")
   end
 end
