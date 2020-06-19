@@ -98,6 +98,7 @@ If you see an error like "** (CompileError) lib/foo.ex:2: undefined function fix
 
 ## Also see
 
+* [Blocked](https://github.com/Qqwy/elixir-blocked), which triggers on GitHub issues rather than dates
 * My [fixme Ruby gem](https://github.com/henrik/fixme)
 
 
