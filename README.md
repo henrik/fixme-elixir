@@ -84,22 +84,21 @@ end
 
 Then fetch it:
 
-```
-mix deps.get
-```
+    mix deps.get
 
 
 ## Tests
 
-```
-mix test
-```
+If you're developing this library, you can run its tests with:
 
+    mix test
+
+CI runs the tests against multiple Elixir versions. See `.travis.yml`. The policy is to test against [every version that still receives security patches](https://hexdocs.pm/elixir/compatibility-and-deprecations.html).
 
 ## Also see
 
 * [Blocked](https://github.com/Qqwy/elixir-blocked), which triggers on GitHub issues rather than dates
-* My [fixme Ruby gem](https://github.com/henrik/fixme)
+* My ["fixme" Ruby gem](https://github.com/henrik/fixme)
 
 
 ## License
