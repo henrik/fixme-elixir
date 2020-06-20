@@ -4,7 +4,7 @@ defmodule FIXME.Mixfile do
   def project do
     [
       app: :fixme,
-      version: "0.0.6",
+      version: "0.2.0",
       elixir: ">= 1.6.0",
       description: "FIXME comments that raise after a certain point in time.",
       package: package(),
