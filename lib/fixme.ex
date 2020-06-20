@@ -24,7 +24,7 @@ defmodule FIXME do
       warn? ->
         %{file: file, line: line} = __CALLER__
         IO.warn(message <> "\n  #{file}:#{line}", [])
-      true  -> true
+      true  -> nil
     end
   end
 
