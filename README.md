@@ -65,6 +65,11 @@ Note that you need to explicitly `import FIXME` because `fixme` is a macro.
 Protip: make sure it's clear from the exception or from a separate comment just what should be done – sometimes not even the person who wrote the quickfix will remember what you're meant to change.
 
 
+## Gotchas
+
+If you see an error like "** (CompileError) lib/foo.ex:2: undefined function fixme/2", you probably forgot to `import FIXME`.
+
+
 ## Installation
 
 Add the dependency to your project's `mix.exs`:
@@ -89,11 +94,6 @@ mix deps.get
 ```
 mix test
 ```
-
-
-## Gotchas
-
-If you see an error like "** (CompileError) lib/foo.ex:2: undefined function fixme/2", you probably forgot to `import FIXME`.
 
 
 ## Also see
