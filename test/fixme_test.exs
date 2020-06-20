@@ -30,47 +30,47 @@ defmodule FIXMETest do
     end
   end
 
-  test "warns during compile time before the date if passed warn: true during invokation, even if application setting not present" do
+  test "warns during compile time before the date if passed `warn: true` during invokation, even if an application setting is not present" do
     warning = capture_io(:stderr, fn ->
       Code.eval_string """
         import FIXME
         fixme 9999-07-01, "look for jetpack", warn: true
-      """
+      """, [], file: "myfile.ex"
     end)
-    assert warning =~ "Fix by 9999-07-01: look for jetpack"
+    assert warning =~ "Fix by 9999-07-01: look for jetpack\n  myfile.ex:2"
   end
 
   @tag warnings_enabled: true
-  test "warns during compile before the date if warn: true in application settings" do
+  test "warns during compile before the date if `warn: true` is set in application settings" do
     warning = capture_io(:stderr, fn ->
       Code.eval_string """
         import FIXME
         fixme 9999-07-01, "look for jetpack"
-      """
+      """, [], file: "myfile.ex"
     end)
-    assert warning =~ "Fix by 9999-07-01: look for jetpack"
+    assert warning =~ "Fix by 9999-07-01: look for jetpack\n  myfile.ex:2"
   end
 
   @tag warnings_enabled: true
-  test "does not warn during compile before the date if warn: true in application setting, but passed warn: false in macro call" do
+  test "does not warn during compile before the date if `warn: true` in application setting, but passed `warn: false` in the macro call" do
     warning = capture_io(:stderr, fn ->
       Code.eval_string """
         import FIXME
         fixme 9999-07-01, "look for jetpack", warn: false
-      """
+      """, [], file: "myfile.ex"
     end)
     assert warning == ""
   end
 
   @tag warnings_enabled: true
-  test "warns during compile before the date if warn: true in application settings and in macro call" do
+  test "warns during compile before the date if `warn: true` both in application settings and in the macro call" do
     warning = capture_io(:stderr, fn ->
       Code.eval_string """
         import FIXME
         fixme 9999-07-01, "look for jetpack", warn: true
-      """
+      """, [], file: "myfile.ex"
     end)
-    assert warning =~ "Fix by 9999-07-01: look for jetpack"
+    assert warning =~ "Fix by 9999-07-01: look for jetpack\n  myfile.ex:2"
   end
 
   @tag warnings_enabled: true

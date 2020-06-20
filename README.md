@@ -26,7 +26,7 @@ Adding:
 config :fixme, warn: true
 ```
 
-will result in the following warning everytime the code is compiled before the date:
+will result in the following warning every time the code is compiled before the date:
 
 ```
 warning: Fix by 2020-12-01: Stop hard-coding currency.

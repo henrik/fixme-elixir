@@ -21,7 +21,9 @@ defmodule FIXME do
     message = "Fix by #{year}-#{zeropad(month)}-#{zeropad(day)}: #{message}"
     cond do
       due?  -> raise message
-      warn? -> IO.warn(message)
+      warn? ->
+        %{file: file, line: line} = __CALLER__
+        IO.warn(message <> "\n  #{file}:#{line}", [])
       true  -> true
     end
   end
