@@ -3,51 +3,23 @@
 [![Build Status](https://travis-ci.org/henrik/fixme-elixir.svg?branch=master)](https://travis-ci.org/henrik/fixme-elixir)
 [![Hex](https://img.shields.io/hexpm/v/fixme.svg)](https://hex.pm/packages/fixme)
 
-FIXME comments that raise after a certain point in time:
+FIXME comments that raise during compilation after a certain point in time:
 
 ``` elixir
 defmodule MyCode do
   import FIXME
 
   def my_function do
-    fixme 2015-12-01, "Stop hard-coding currency."
+    fixme 2020-12-01, "Stop hard-coding currency."
     currency = "USD"
     # …
   end
 end
 ```
 
-Starting December 1st 2015, the "fixme" line in the example above would raise a compile-time exception with the message "Fix by 2015-12-01: Stop hard-coding currency."
+Starting December 1st 2020, the `fixme` line in the example above would raise a compile-time exception with the message "Fix by 2020-12-01: Stop hard-coding currency."
 
-An application wide setting can be enabled to emit warnings during compile time before the date provided to your fixme call.
-Adding:
-
-```elixir
-config :fixme, warn: true
-```
-
-will result in the following warning every time the code is compiled before the date:
-
-```
-warning: Fix by 2020-12-01: Stop hard-coding currency.
-  lib/my_code.ex:5
-```
-
-Note, this will still raise on compile after the date passes.
-
-You can additionally pass a parameter ```warn: true``` or ```warn: false``` to override the application settings:
-
-```elixir
-defmodule MyCode do
-  import FIXME
-
-  def my_function do
-    fixme 2020-12-01, "Stop hard-coding currency.", warn: false # does not raise the warning even if warn: true in application settings
-    currency = "USD"
-    # …
-  end
-end
-```
+Optionally, you can also get warnings before that date, reminding you it's coming up.
 
 You may want to use these bad boys next to:
 
@@ -56,13 +28,40 @@ You may want to use these bad boys next to:
 * Experiments, to remember to evaluate them and make a decision.
 * Anything else you can't do now but should fix later.
 
-They raise at compile time because runtime errors in production are not desirable. Compile time also means that the above example will raise when `my_function` is compiled, even if it's never called.
+They raise *at compile time* because runtime errors in production are not desirable. Compile time also means that the above example will raise when `my_function` is compiled, even if it's never called.
 
 Another consequence of running at compile time is that if the date passes and the file is not recompiled, there will be no exception. You can either accept that (maybe untouched code can remain that way until the next time), or you can `mix compile --force`. Or make your case for runtime support: maybe it should be added?
 
 Note that you need to explicitly `import FIXME` because `fixme` is a macro.
 
 Protip: make sure it's clear from the exception or from a separate comment just what should be done – sometimes not even the person who wrote the quickfix will remember what you're meant to change.
+
+
+## Warnings before the due date
+
+You can opt into warnings before the due date arrives – but you'll still get exceptions on and after the date.
+
+The warnings look like:
+
+    warning: Fix by 2020-12-01: Stop hard-coding currency.
+      lib/my_code.ex:5
+
+You can configure this either application-wide or per `fixme` call.
+
+If you want it application-wide, do this in your `config/config.exs`:
+
+
+```elixir
+config :fixme, warn: true
+```
+
+To specify it per call:
+
+```elixir
+fixme 2020-12-01, "Stop hard-coding currency.", warn: true
+```
+
+This overrides the application-wide setting, so you can selectively opt into warnings for some FIXMEs, or opt out of some if the application-wide setting is to show them.
 
 
 ## Gotchas
@@ -103,7 +102,7 @@ CI runs the tests against multiple Elixir versions. See `.travis.yml`. The polic
 
 ## License
 
-Copyright (c) 2015 Henrik Nyh
+Copyright (c) 2015+ Henrik Nyh
 
 MIT License
 
